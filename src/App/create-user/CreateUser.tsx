@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import styles from "./CreateUser.module.css";
 
-
+/*
 type UserType = {
     name: string,
     surname: string,
@@ -13,6 +13,7 @@ type UserType = {
     city: string | undefined,
     zip: string | undefined
 };
+*/
 
 const validator = yup.object({
     name: yup.string().max(40, "Δεν μπορείτε να δώσετε πάνω από 40 χαρακτήρες.").required("Το πεδίο είναι υποχρεωτικό."),

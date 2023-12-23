@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { useCallback } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -9,9 +9,9 @@ import styles from "./CreateUser.module.css";
 type UserType = {
     name: string,
     surname: string,
-    street: string,
-    city: string,
-    zip: string
+    street: string | undefined,
+    city: string | undefined,
+    zip: string | undefined
 };
 
 const validator = yup.object({
@@ -31,7 +31,7 @@ function CreateUser()
       } = useForm({mode: "onChange", resolver: yupResolver(validator)});
 
 
-    const OnUserCreate = useCallback((user: any)=>
+    const OnUserCreate = useCallback((user: any): void=>
     {
         console.log(user);
 

@@ -1,5 +1,4 @@
 
-import styles from "./CreateUser.module.css";
 import SmartForm from "../../core/components/SmartForm";
 
 import * as yup from "yup";
@@ -23,6 +22,15 @@ const placeholders = [
     "Πχ 63200"
 ];
 
+
+const names = [
+    "Όνομα",
+    "Επώνυμο",
+    "Οδός",
+    "Πόλη",
+    "ΤΚ"
+];
+
 function CreateUser()
 {
 
@@ -36,6 +44,7 @@ function CreateUser()
         <>
             <SmartForm 
             validator={validator}
+            fieldNames={names}
             title="Δημιουργία Χρήστη"
             submitName="Δημιουργία"
             placeholders={placeholders}

@@ -1,5 +1,5 @@
 import styles from "./SmartForm.module.css";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -9,6 +9,7 @@ import * as yup from "yup";
 export type SmartFormProps = {
     validator: yup.AnyObjectSchema,
     placeholders: Array<string>,
+    fieldNames: Array<string>,
     title: string,
     submitName: string,
     onSubmit: (values: any)=>void,
@@ -44,6 +45,16 @@ function SmartForm(props: SmartFormProps)
             f.push( {field: props.validator.fields[key], id: index, fieldName: key} );
         });
 
+        if (f.length !== props.placeholders.length)
+        {
+            console.warn("<SmartForm/> props validator and placeholder must have the same number of elements");
+        }
+
+        if (f.length !== props.fieldNames.length)
+        {
+            console.warn("<SmartForm/> props validator and fieldNames must have the same number of elements");
+        }
+
         SetFields(f);
 
     }, []);
@@ -78,7 +89,7 @@ function SmartForm(props: SmartFormProps)
 
                 return (
                     <div className={styles.input_column} key={field.id}>
-                        <label htmlFor={htmlForId} className={`form-label ${styles.input_label}`}>{field.fieldName}</label>
+                        <label htmlFor={htmlForId} className={`form-label ${styles.input_label}`}>{props.fieldNames[index]}</label>
                         <input {...register(field.fieldName)} type={htmlType} className="form-control" id={htmlForId} placeholder={props.placeholders[index]}/>
                         {errors[field.fieldName] && <label className={`${styles.error_label} text-danger`}>{errmsg}</label>}
                     </div>

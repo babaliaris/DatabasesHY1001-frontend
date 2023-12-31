@@ -1,8 +1,11 @@
 
 import SmartForm from "../../core/components/smart-form/SmartForm";
-
+import { useCallback, useContext } from "react";
+import { FakeContext } from "../../core/contex/FakeContext";
 import * as yup from "yup";
-import { useCallback } from "react";
+
+import { UserModel } from "../../core/models/types.models";
+
 
 
 const validator = yup.object({
@@ -35,12 +38,25 @@ const names = [
 
 function CreateUser()
 {
+    const fakeContext = useContext(FakeContext)
 
-    const onUserCreated = useCallback((values: any)=>
+    const onUserCreated = useCallback((values: UserModel)=>
     {
-        console.log(values);
+        fakeContext.users.push({
+            userID: -1,
+            name: values.name,
+            surname: values.surname,
+            street: values.street,
+            city: values.city,
+            zip: values.zip,
+            isBuyer: values.isBuyer
+        });
+
+        console.log(fakeContext.users);
 
     }, []);
+
+    console.log(fakeContext.users);
 
     return (
         <>

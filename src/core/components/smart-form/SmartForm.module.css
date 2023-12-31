@@ -29,6 +29,11 @@
     font-size: small;
 }
 
+.input_label_checkbox
+{
+    margin-right: 0.4rem;
+}
+
 
 .error_label
 {

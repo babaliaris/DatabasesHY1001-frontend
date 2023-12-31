@@ -45,14 +45,14 @@ function SmartForm(props: SmartFormProps)
             f.push( {field: props.validator.fields[key], id: index, fieldName: key} );
         });
 
-        if (f.length !== props.placeholders.length)
+        if ( props.placeholders.length > f.length)
         {
-            console.warn("<SmartForm/> props validator and placeholder must have the same number of elements");
+            console.warn("<SmartForm/> props.placeholder must have less or equal elements as the props.validator");
         }
 
         if (f.length !== props.fieldNames.length)
         {
-            console.warn("<SmartForm/> props validator and fieldNames must have the same number of elements");
+            console.warn("<SmartForm/> props.validator and props.fieldNames must have the same number of elements");
         }
 
         SetFields(f);
@@ -82,6 +82,14 @@ function SmartForm(props: SmartFormProps)
                         htmlType = "text";
                         break;
 
+                    case "boolean":
+                        htmlType = "checkbox";
+                        break;
+
+                    case "bool":
+                        htmlType = "checkbox";
+                        break;
+
                     default:
                         htmlType = field.field.type;
                         break;
@@ -89,8 +97,20 @@ function SmartForm(props: SmartFormProps)
 
                 return (
                     <div className={styles.input_column} key={field.id}>
-                        <label htmlFor={htmlForId} className={`form-label ${styles.input_label}`}>{props.fieldNames[index]}</label>
-                        <input {...register(field.fieldName)} type={htmlType} className="form-control" id={htmlForId} placeholder={props.placeholders[index]}/>
+                        <label
+                        htmlFor={htmlForId}
+                        className={`${htmlType === "checkbox" ? "form-check-label" : "form-label"} 
+                                    ${styles.input_label} ${htmlType === "checkbox" ? `${styles.input_label_checkbox}` : ""} ${styles.input_label}`}>
+                            {props.fieldNames[index]}
+                        </label>
+
+                        <input
+                        {...register(field.fieldName)}
+                        type={htmlType}
+                        className={`${htmlType === "checkbox" ? "form-check-input" : "form-control"}`}
+                        id={htmlForId}
+                        placeholder={props.placeholders[index]}/>
+
                         {errors[field.fieldName] && <label className={`${styles.error_label} text-danger`}>{errmsg}</label>}
                     </div>
                 );

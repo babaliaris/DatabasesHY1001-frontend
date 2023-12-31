@@ -18,10 +18,23 @@ function NavBar()
             </div>
 
             <div className={`${styles.content_column}`}>
-                <form className="d-flex" role="search">
-                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-success btn-info" type="submit">Search</button>
-                </form>
+                <div className={`${styles.content_item}`}>
+                    <button
+                    className={`btn btn-info`}
+                    onClick={()=>navigate('create-user')}
+                    >
+                        Δημιουργία Χρήστη
+                    </button>
+                </div>
+
+                <div className={`${styles.content_item}`}>
+                    <button
+                    className={`btn btn-info`}
+                    onClick={()=>navigate('select-user')}
+                    >
+                        Επιλογή Χρήστη
+                    </button>
+                </div>
             </div>
 
         </div>

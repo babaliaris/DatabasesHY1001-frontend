@@ -39,3 +39,10 @@
     justify-content: end;
     justify-self: end;
 }
+
+
+.content_item
+{
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+}

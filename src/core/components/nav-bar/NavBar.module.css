@@ -1,0 +1,41 @@
+.container
+{
+    display: flex;
+    position: sticky;
+    top: 0;
+    align-items: center;
+    height: 4rem;
+}
+
+
+.logo_column
+{
+    margin-left: 1rem;
+    font-size:xx-large;
+    color: rgb(0, 190, 0);
+    cursor: pointer;
+}
+
+
+.title_column
+{
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
+    font-size: x-large;
+    cursor: pointer;
+}
+
+
+.title_label
+{
+    cursor: pointer;
+}
+
+
+.content_column
+{
+    flex: auto;
+    display: flex;
+    justify-content: end;
+    justify-self: end;
+}

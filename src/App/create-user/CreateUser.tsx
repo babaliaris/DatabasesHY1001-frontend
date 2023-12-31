@@ -1,5 +1,5 @@
 
-import SmartForm from "../../core/components/SmartForm";
+import SmartForm from "../../core/components/smart-form/SmartForm";
 
 import * as yup from "yup";
 import { useCallback } from "react";

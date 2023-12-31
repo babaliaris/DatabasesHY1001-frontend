@@ -52,7 +52,7 @@ function CreateUser()
             isBuyer: values.isBuyer
         });
 
-        console.log(fakeContext.users);
+        fakeContext.setContext({...fakeContext});
 
     }, []);
 

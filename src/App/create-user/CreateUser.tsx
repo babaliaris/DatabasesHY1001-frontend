@@ -5,6 +5,7 @@ import { FakeContext } from "../../core/contex/FakeContext";
 import * as yup from "yup";
 
 import { UserModel } from "../../core/models/types.models";
+import { apiAddUser } from "../../core/api";
 
 
 
@@ -42,7 +43,7 @@ function CreateUser()
 
     const onUserCreated = useCallback((values: UserModel)=>
     {
-        fakeContext.users.push({
+        let new_user: UserModel = {
             userID: -1,
             name: values.name,
             surname: values.surname,
@@ -50,9 +51,19 @@ function CreateUser()
             city: values.city,
             zip: values.zip,
             isBuyer: values.isBuyer
-        });
+        };
+        
+        if (import.meta.env.VITE_MOCK_API)
+        {
+            fakeContext.users.push(new_user);
 
-        fakeContext.setContext({...fakeContext});
+            fakeContext.setContext({...fakeContext});
+        }
+
+        else
+        {
+            apiAddUser(new_user);
+        }
 
     }, []);
 

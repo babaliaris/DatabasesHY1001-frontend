@@ -7,3 +7,12 @@ export function apiAddUser(user: UserModel) : Promise<boolean>
         rej("Not implemented yet!");
     });
 }
+
+
+export function apiGetUsers(limit: number) : Promise<Array<UserModel>>
+{
+    return new Promise((res, rej)=>
+    {
+        rej("Not implemented yet!");
+    });
+}

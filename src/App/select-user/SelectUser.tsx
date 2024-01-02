@@ -1,30 +1,72 @@
 import styles from "./SelectUser.module.css";
 import { useEffect, useState, useContext, useCallback } from "react";
 
+import { fontawesomeIcons } from "../../core/fontawesome.icons";
 import { FakeContext } from "../../core/contex/FakeContext";
 import { UserModel } from "../../core/models/types.models";
-import { fontawesomeIcons } from "../../core/fontawesome.icons";
 import { apiGetUsers } from "../../core/api";
+import { getRandomID } from "../../core/unilities";
+
+import SmartList from "../../core/components/smart-list/SmartList";
 
 
 
 function SelectUser()
 {
     const fakeContext = useContext(FakeContext);
-    const [users, setUsers] = useState<Array<UserModel>>([]);
+    const [farmers, setFarmers] = useState<Array<UserModel>>([]);
+    const [buyers, setBuyers] = useState<Array<UserModel>>([]);
 
     useEffect(()=>
     {
         if (import.meta.env.VITE_MOCK_API)
         {
-            setUsers(fakeContext.users);
+            let f: Array<UserModel> = [];
+            let b: Array<UserModel> = [];
+
+            fakeContext.users.forEach((val: UserModel)=>
+            {
+                val.userID = getRandomID();
+
+                if (val.isBuyer)
+                {
+                    b.push(val);
+                }
+
+                else
+                {
+                    f.push(val);
+                }
+            });
+
+            setFarmers(f);
+            setBuyers(b);
         }
 
         else
         {
-            apiGetUsers(100).then((users: Array<UserModel>)=>
+            apiGetUsers(100).then((val: Array<UserModel>)=>
             {
-                setUsers(users);
+                let f: Array<UserModel> = [];
+                let b: Array<UserModel> = [];
+
+                fakeContext.users.forEach((val: UserModel)=>
+                {
+                    val.userID = getRandomID();
+
+                    if (val.isBuyer)
+                    {
+                        b.push(val);
+                    }
+
+                    else
+                    {
+                        f.push(val);
+                    }
+                });
+
+                setFarmers(f);
+                setBuyers(b);
             })
             .catch((err)=>
             {
@@ -36,25 +78,46 @@ function SelectUser()
 
 
 
-    const onUserSelected = useCallback((user: UserModel, event: React.MouseEvent<HTMLDivElement, MouseEvent>)=>
+    const onUserSelected = useCallback((user: UserModel)=>
     {
-        event.stopPropagation();
         console.log(`[onUserSelected] ${JSON.stringify(user)}`);
 
     }, []);
 
 
-    const onUserEdit = useCallback((user: UserModel, event: React.MouseEvent<HTMLElement, MouseEvent>)=>
+    const onUserEdit = useCallback((user: UserModel)=>
     {
-        event.stopPropagation();
         console.log(`[onUserEdit] ${JSON.stringify(user)}`);
     }, []);
 
 
-    const onUserDelete = useCallback((user: UserModel, event: React.MouseEvent<HTMLElement, MouseEvent>)=>
+    const onUserDelete = useCallback((user: UserModel, index: number)=>
     {
-        event.stopPropagation();
         console.log(`[onUserDelete] ${JSON.stringify(user)}`);
+
+        //Delete fomr the list.
+        if (user.isBuyer)
+        {
+            setBuyers((oldValue: Array<UserModel>)=>
+            {
+                oldValue.splice(index, 1);
+                return [...oldValue];
+            });
+        }
+
+        //Delete from the list.
+        else
+        {
+            setFarmers((oldValue: Array<UserModel>)=>
+            {
+                oldValue.splice(index, 1);
+                return [...oldValue];
+
+            });
+        }
+
+        //TODO Delete form the database using api.
+
     }, []);
 
 
@@ -83,109 +146,25 @@ function SelectUser()
             className={`${styles.lists_container}`}
             >
 
-                <div
-                className={`${styles.list_farmers}`}
-                >
-                    {
-                        users.map((user: UserModel)=>
-                        {
-                            return (
-                                user.isBuyer !== true &&
-                                <div
-                                className={`${styles.list_item}`}
-                                onClick={(event)=>onUserSelected(user, event)}
-                                >
-                                    <div
-                                    className={`${styles.item_icon}`}
-                                    >
-                                        <i className={`${fontawesomeIcons.farmer}`}/>
-                                    </div>
+                <SmartList
+                data={farmers}
+                getText={(value: UserModel)=>value.surname}
+                getLogo={()=> fontawesomeIcons.farmer}
+                getId={(value: UserModel)=>value.userID}
+                onSelect={onUserSelected}
+                onEdit={onUserEdit}
+                onDelete={onUserDelete}
+                />
 
-                                    <div
-                                    className={`${styles.item_text}`}
-                                    >
-                                        <label>{`${user.name} ${user.surname}`}</label>
-                                    </div>
-
-                                    <div
-                                    className={`${styles.item_edit}`}
-                                    >
-                                        <i
-                                        className={`${fontawesomeIcons.edit}`}
-                                        onClick={(event)=>onUserEdit(user, event)}
-                                        />
-
-                                    </div>
-
-                                    <div
-                                    className={`${styles.item_delete}`}
-                                    >
-                                        <i
-                                        className={`${fontawesomeIcons.delete}`}
-                                        onClick={(event)=>onUserDelete(user, event)}
-                                        />
-
-                                    </div>
-
-                                </div>
-                            );
-                        })
-                    }
-
-                </div>
-
-
-
-                <div
-                className={`${styles.list_buyers}`}
-                >
-                    {
-                        users.map((user: UserModel)=>
-                        {
-                            return (
-                                user.isBuyer == true &&
-                                <div
-                                className={`${styles.list_item}`}
-                                onClick={(event)=>onUserSelected(user, event)}
-                                >
-                                    <div
-                                    className={`${styles.item_icon}`}
-                                    >
-                                        <i className={`${fontawesomeIcons.buyer}`}/>
-                                    </div>
-
-                                    <div
-                                    className={`${styles.item_text}`}
-                                    >
-                                        <label>{`${user.name} ${user.surname}`}</label>
-                                    </div>
-
-                                    <div
-                                    className={`${styles.item_edit}`}
-                                    >
-                                        <i
-                                        className={`${fontawesomeIcons.edit}`}
-                                        onClick={(event)=>onUserEdit(user, event)}
-                                        />
-
-                                    </div>
-
-                                    <div
-                                    className={`${styles.item_delete}`}
-                                    >
-                                        <i
-                                        className={`${fontawesomeIcons.delete}`}
-                                        onClick={(event)=>onUserDelete(user, event)}
-                                        />
-
-                                    </div>
-
-                                </div>
-                            );
-                        })
-                    }
-
-                </div>
+                <SmartList
+                data={buyers}
+                getText={(value: UserModel)=>value.surname}
+                getLogo={()=> fontawesomeIcons.farmer}
+                getId={(value: UserModel)=>value.userID}
+                onSelect={onUserSelected}
+                onEdit={onUserEdit}
+                onDelete={onUserDelete}
+                />
 
             </div>
         </div>

@@ -67,7 +67,6 @@ function CreateUser()
 
     }, []);
 
-    console.log(fakeContext.users);
 
     return (
         <>

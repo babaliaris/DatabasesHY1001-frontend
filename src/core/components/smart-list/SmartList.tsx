@@ -7,9 +7,10 @@ export type SmartListProps = {
     data: Array<any>,
     getLogo: (value: any)=>string,
     getText: (value: any)=>string,
+    getId: (value: any)=>number,
     onSelect?: (data: any)=>void,
     onEdit?: (data: any)=>void,
-    onDelete?: (data: any)=>void,
+    onDelete?: (data: any, index: number)=>void,
     style?: React.CSSProperties
 };
 
@@ -35,9 +36,7 @@ function SmartList(props: SmartListProps)
     const onItemDelete = useCallback((value: any, index: number, event: React.MouseEvent<HTMLElement, MouseEvent>)=>
     {
         event.stopPropagation();
-        if (props.onDelete) props.onDelete(value);
-
-        props.data.splice(index, 1);
+        if (props.onDelete) props.onDelete(value, index);
 
     }, [props]);
 
@@ -54,6 +53,7 @@ function SmartList(props: SmartListProps)
                         <div
                         className={`${styles.list_item}`}
                         onClick={(event)=>{onItemSelect(value, event)}}
+                        key={props.getId(value)}
                         >
                             <div
                             className={`${styles.item_logo}`}

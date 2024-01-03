@@ -19,6 +19,7 @@
     "react-hook-form": "^7.49.2",
     "react-router-dom": "^6.21.1",
     "sass": "^1.69.5",
+    "typescript-cookie": "^1.0.6",
     "yup": "^1.3.3"
   },
   "devDependencies": {

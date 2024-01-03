@@ -1,11 +1,11 @@
 
 import SmartForm from "../../core/components/smart-form/SmartForm";
-import { useCallback, useContext } from "react";
-import { FakeContext } from "../../core/contex/FakeContext";
+import { useCallback } from "react";
 import * as yup from "yup";
 
 import { UserModel } from "../../core/models/types.models";
 import { apiAddUser } from "../../core/api";
+import { getRandomID } from "../../core/unilities";
 
 
 
@@ -37,14 +37,11 @@ const names = [
     "Είναι Αγοραστής"
 ];
 
-function CreateUser()
-{
-    const fakeContext = useContext(FakeContext)
+function CreateUser() {
 
-    const onUserCreated = useCallback((values: UserModel)=>
-    {
+    const onUserCreated = useCallback((values: UserModel) => {
         let new_user: UserModel = {
-            userID: -1,
+            userID: import.meta.env.VITE_MOCK_API ? getRandomID() : -1,
             name: values.name,
             surname: values.surname,
             street: values.street,
@@ -52,32 +49,29 @@ function CreateUser()
             zip: values.zip,
             isBuyer: values.isBuyer
         };
-        
-        if (import.meta.env.VITE_MOCK_API)
-        {
-            fakeContext.users.push(new_user);
 
-            fakeContext.setContext({...fakeContext});
-        }
-
-        else
+        apiAddUser(new_user).then((value)=>
         {
-            apiAddUser(new_user);
-        }
+            if (!value) console.log("Backend failed to create the user");
+
+        }).catch((err)=>
+        {
+            console.log(err);
+        });
 
     }, []);
 
 
     return (
         <>
-            <SmartForm 
-            validator={validator}
-            fieldNames={names}
-            title="Δημιουργία Χρήστη"
-            submitName="Δημιουργία"
-            placeholders={placeholders}
-            onSubmit={onUserCreated}
-            style={{marginTop: "1rem"}}
+            <SmartForm
+                validator={validator}
+                fieldNames={names}
+                title="Δημιουργία Χρήστη"
+                submitName="Δημιουργία"
+                placeholders={placeholders}
+                onSubmit={onUserCreated}
+                style={{ marginTop: "1rem" }}
             />
         </>
     )

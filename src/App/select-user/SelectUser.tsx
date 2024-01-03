@@ -1,11 +1,9 @@
 import styles from "./SelectUser.module.css";
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { fontawesomeIcons } from "../../core/fontawesome.icons";
-import { FakeContext } from "../../core/contex/FakeContext";
 import { UserModel } from "../../core/models/types.models";
-import { apiGetUsers } from "../../core/api";
-import { getRandomID } from "../../core/unilities";
+import { apiGetUsers, apiDeleteUser } from "../../core/api";
 
 import SmartList from "../../core/components/smart-list/SmartList";
 
@@ -13,20 +11,18 @@ import SmartList from "../../core/components/smart-list/SmartList";
 
 function SelectUser()
 {
-    const fakeContext = useContext(FakeContext);
     const [farmers, setFarmers] = useState<Array<UserModel>>([]);
     const [buyers, setBuyers] = useState<Array<UserModel>>([]);
 
     useEffect(()=>
     {
-        if (import.meta.env.VITE_MOCK_API)
+        apiGetUsers(100).then((users: Array<UserModel>)=>
         {
             let f: Array<UserModel> = [];
             let b: Array<UserModel> = [];
 
-            fakeContext.users.forEach((val: UserModel)=>
+            users.forEach((val: UserModel)=>
             {
-                val.userID = getRandomID();
 
                 if (val.isBuyer)
                 {
@@ -41,38 +37,11 @@ function SelectUser()
 
             setFarmers(f);
             setBuyers(b);
-        }
-
-        else
+        })
+        .catch((err)=>
         {
-            apiGetUsers(100).then((val: Array<UserModel>)=>
-            {
-                let f: Array<UserModel> = [];
-                let b: Array<UserModel> = [];
-
-                fakeContext.users.forEach((val: UserModel)=>
-                {
-                    val.userID = getRandomID();
-
-                    if (val.isBuyer)
-                    {
-                        b.push(val);
-                    }
-
-                    else
-                    {
-                        f.push(val);
-                    }
-                });
-
-                setFarmers(f);
-                setBuyers(b);
-            })
-            .catch((err)=>
-            {
-                console.log(err);
-            });
-        }
+            console.log(err);
+        });
 
     }, []);
 
@@ -93,9 +62,10 @@ function SelectUser()
 
     const onUserDelete = useCallback((user: UserModel, index: number)=>
     {
-        console.log(`[onUserDelete] ${JSON.stringify(user)}`);
+        //Delete from api.
+        apiDeleteUser(user);
 
-        //Delete fomr the list.
+        //Delete from the list.
         if (user.isBuyer)
         {
             setBuyers((oldValue: Array<UserModel>)=>
@@ -115,8 +85,6 @@ function SelectUser()
 
             });
         }
-
-        //TODO Delete form the database using api.
 
     }, []);
 

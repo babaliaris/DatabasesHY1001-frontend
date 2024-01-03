@@ -41,6 +41,7 @@
 .item_text
 {
     flex: auto;
+    text-align: center;
 }
 
 
@@ -48,7 +49,6 @@
 .text
 {
     cursor: pointer;
-    text-align: center;
 }
 
 

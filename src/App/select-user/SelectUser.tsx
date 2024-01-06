@@ -116,7 +116,7 @@ function SelectUser()
 
                 <SmartList
                 data={farmers}
-                getText={(value: UserModel)=>value.surname}
+                getText={(value: UserModel)=>`${value.name} ${value.surname}`}
                 getLogo={()=> fontawesomeIcons.farmer}
                 getId={(value: UserModel)=>value.userID}
                 onSelect={onUserSelected}
@@ -124,9 +124,11 @@ function SelectUser()
                 onDelete={onUserDelete}
                 />
 
+                <div className={styles.list_divider}></div>
+
                 <SmartList
                 data={buyers}
-                getText={(value: UserModel)=>value.surname}
+                getText={(value: UserModel)=>`${value.name} ${value.surname}`}
                 getLogo={()=> fontawesomeIcons.farmer}
                 getId={(value: UserModel)=>value.userID}
                 onSelect={onUserSelected}

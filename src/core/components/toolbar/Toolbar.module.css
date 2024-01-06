@@ -1,0 +1,9 @@
+.container
+{
+    display: flex;
+    align-items: center;
+    height: 2rem;
+    width: 100%;
+    border-bottom-left-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+}

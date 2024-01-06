@@ -4,10 +4,14 @@ import * as yup from "yup";
 
 import { GlobalContext } from "../../../core/contex/GlobalContext";
 import { fontawesomeIcons } from "../../../core/fontawesome.icons";
+import { getRandomID } from "../../../core/unilities";
+import { apiAddProduction, apiGetProductions, apiDeleteProduction,
+         apiAddLand, apiGetLands, apiDeleteLand} from "../../../core/api";
 import SmartForm from "../../../core/components/smart-form/SmartForm";
 import Modal from "../../../core/components/modal/Modal";
 
 import { LandModel, ProductionModel } from "../../../core/models/types.models";
+import SmartList from "../../../core/components/smart-list/SmartList";
 
 const productionValidator = yup.object({
     name: yup.string().max(40, "Δεν μπορείτε να δώσετε πάνω από 40 χαρακτήρες.").required("Το πεδίο είναι υποχρεωτικό."),
@@ -62,6 +66,9 @@ function FarmerProfile()
     const [productionModalB, setProductionModalB] = useState(false);
     const [landModalB, setLandModalB] = useState(false);
 
+    const[productions, setProductions] = useState<Array<ProductionModel>>([]);
+    const[lands, setLands] = useState<Array<LandModel>>([]);
+
     const onNewProduction = useCallback(()=>
     {
         setProductionModalB(true);
@@ -76,17 +83,51 @@ function FarmerProfile()
 
     const onProductionCreated = useCallback((newProduction: ProductionModel)=>
     {
-        console.log(newProduction);
+        newProduction.id = getRandomID();
+
+        apiAddProduction(newProduction).then((val)=>
+        {
+            if (!val) console.error("Failed to create a new production!");
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+        setProductions((prevState)=>
+        {
+            prevState.push(newProduction);
+
+            return [...prevState];
+        })
+
         setProductionModalB(false);
 
-    }, [setProductionModalB]);
+    }, [setProductions, setProductionModalB]);
 
     const onLandCreated =useCallback ((newLand: LandModel)=>
     {
-        console.log(newLand);
+        newLand.id = getRandomID();
+
+        apiAddLand(newLand).then((val)=>
+        {
+            if (!val) console.error("Failed to create a new land!");
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+        setLands((prevState)=>
+        {
+            prevState.push(newLand);
+
+            return [...prevState];
+        })
+
         setLandModalB(false);
         
-    }, [setLandModalB]);
+    }, [setLands, setLandModalB]);
 
     const onModalClose = useCallback(()=>
     {
@@ -103,6 +144,25 @@ function FarmerProfile()
         ];
 
         globalCtx.setContext({...globalCtx});
+
+        apiGetProductions().then((val)=>
+        {
+            setProductions(val);
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+
+        apiGetLands().then((val)=>
+        {
+            setLands(val);
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
 
     }, []);
 
@@ -133,6 +193,37 @@ function FarmerProfile()
                     />
                 </Modal>
             }
+
+
+            <div
+            className={styles.lists_container}
+            >
+
+                <div
+                className={styles.productions_list}
+                >
+                    <SmartList
+                    data={productions}
+                    getId={(value: ProductionModel)=>value.id}
+                    getLogo={()=>fontawesomeIcons.production}
+                    getText={(value: ProductionModel)=>`${value.name} ${value.year}`}
+                    />
+
+                </div>
+
+
+                <div
+                className={styles.lands_list}
+                >
+                    <SmartList
+                    data={lands}
+                    getId={(value: LandModel)=>value.id}
+                    getLogo={()=>fontawesomeIcons.land}
+                    getText={(value: LandModel)=>value.name}
+                    />
+                </div>
+
+            </div>
 
         </div>
     );

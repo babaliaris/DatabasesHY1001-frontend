@@ -1,0 +1,30 @@
+.container
+{
+    overflow-y: auto;
+    margin-top: 1rem;
+    height: calc(100vh - 9rem);
+    border-style: solid;
+    border-radius: 0.15rem;
+    border-width: 0.1rem;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.lists_container
+{
+    display: flex;
+}
+
+
+.productions_list
+{
+    flex: auto;
+}
+
+
+.lands_list
+{
+    flex: auto;
+}

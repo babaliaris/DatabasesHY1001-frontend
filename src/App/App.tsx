@@ -1,33 +1,26 @@
 import { Outlet } from "react-router-dom";
-import { FakeContext, FakeValue } from "../core/contex/FakeContext";
+import { GlobalContext, GlobalContextValue } from "../core/contex/GlobalContext";
 import NavBar from "../core/components/nav-bar/NavBar";
 import { useState } from "react";
-import Toolbar, { ToolbarButton } from "../core/components/toolbar/Toolbar";
-import { fontawesomeIcons } from "../core/fontawesome.icons";
+import Toolbar from "../core/components/toolbar/Toolbar";
+
 
 function App()
 {
 
-  const [fakeContext, setFakeContext] = useState(FakeValue);
+  const [globalContext, setGlobalContext] = useState(GlobalContextValue);
 
-  const actualContext = fakeContext;
-
-  actualContext.setContext = setFakeContext;
-
-  const btns: Array<ToolbarButton> = [
-    {text: "Add Production", icon: fontawesomeIcons.farmer, onClick: ()=>console.log("Add Production Clicked!")},
-    {text: "Add Land", icon: fontawesomeIcons.farmer, onClick: ()=>console.log("Add Land Clicked!")},
-  ];
+  const actualContext       = globalContext;
+  actualContext.setContext  = setGlobalContext;
 
   return (
     <>
-      <FakeContext.Provider value={actualContext}>
+        <GlobalContext.Provider value={actualContext}>
+          <NavBar/>
+          <Toolbar buttons={actualContext.toolbarBtns}/>
+          <Outlet/>
+        </GlobalContext.Provider>
 
-        <NavBar/>
-        <Toolbar buttons={btns}/>
-        <Outlet/>
-
-      </FakeContext.Provider>
     </>
   )
 }

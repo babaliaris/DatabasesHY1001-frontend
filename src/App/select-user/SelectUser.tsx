@@ -50,8 +50,11 @@ function SelectUser()
 
 
     const onUserSelected = useCallback((user: UserModel)=>
-    {
-        navigate(`/user-profile/${user.userID}`);
+    {   
+        if (user.isBuyer) navigate(`/buyer-profile/${user.userID}`);
+
+        else navigate(`/farmer-profile/${user.userID}`);
+        
     }, []);
 
 

@@ -4,7 +4,8 @@ import App from "../App/App";
 import CreateUser from "../App/create-user/CreateUser";
 import SelectUser from "../App/select-user/SelectUser";
 import Welcome from "../App/welcome/Welcome";
-import UserProfile from "../App/select-user/user-profile/UserProfile";
+import FarmerProfile from "../App/select-user/farmer-profile/FarmerProfile";
+import BuyerProfile from "../App/select-user/buyer-profile/BuyerProfile";
 
 export function getRouter()
 {
@@ -18,7 +19,9 @@ export function getRouter()
 
                 {path: "select-user", element: <SelectUser/>},
 
-                {path: "user-profile/:id", element: <UserProfile/>},
+                {path: "farmer-profile/:id", element: <FarmerProfile/>},
+
+                {path: "buyer-profile/:id", element: <BuyerProfile/>},
 
                 {path: "/", loader: ()=>redirect("/welcome")}
             ]

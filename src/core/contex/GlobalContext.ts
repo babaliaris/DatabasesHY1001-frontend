@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { ToolbarButton } from "../components/toolbar/Toolbar";
 
 
-interface GlobalContextI
+export interface GlobalContextI
 {
     setContext: (value: GlobalContextI)=> void
     toolbarBtns: Array<ToolbarButton>

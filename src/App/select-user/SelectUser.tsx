@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { fontawesomeIcons } from "../../core/fontawesome.icons";
 import { UserModel } from "../../core/models/types.models";
 import { apiGetUsers, apiDeleteUser } from "../../core/api";
+import { useNavigate } from "react-router-dom";
 
 import SmartList from "../../core/components/smart-list/SmartList";
 
@@ -13,6 +14,7 @@ function SelectUser()
 {
     const [farmers, setFarmers] = useState<Array<UserModel>>([]);
     const [buyers, setBuyers] = useState<Array<UserModel>>([]);
+    const navigate = useNavigate();
 
     useEffect(()=>
     {
@@ -49,8 +51,7 @@ function SelectUser()
 
     const onUserSelected = useCallback((user: UserModel)=>
     {
-        console.log(`[onUserSelected] ${JSON.stringify(user)}`);
-
+        navigate(`/user-profile/${user.userID}`);
     }, []);
 
 

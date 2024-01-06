@@ -10,7 +10,7 @@ export type SmartFormProps = {
     validator: yup.AnyObjectSchema,
     placeholders: Array<string>,
     fieldNames: Array<string>,
-    title: string,
+    title?: string,
     submitName: string,
     onSubmit: (values: any)=>void,
     style?: React.CSSProperties
@@ -62,10 +62,12 @@ function SmartForm(props: SmartFormProps)
 
     return (
         <form className={styles.form_container} onSubmit={handleSubmit(props.onSubmit)} style={props.style}>
-
-        <div className={styles.form_title}>
-            <label className={styles.title}>Δημιουργία Χρήστη</label>
-        </div>
+        
+        { props.title &&
+            <div className={styles.form_title}>
+                <label className={styles.title}>{props.title}</label>
+            </div>
+        }
         
         {
             fields.map((field: FieldsType, index: number)=>

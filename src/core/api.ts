@@ -339,7 +339,7 @@ export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean
 
 
 
-export function apiAddIncome(userId: number, income: IncomeModel) : Promise<boolean>
+export function apiAddIncome(userId: number, productionId: number, income: IncomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -371,7 +371,7 @@ export function apiAddIncome(userId: number, income: IncomeModel) : Promise<bool
 
 
 
-export function apiGetIncomes(userId: number) : Promise<Array<IncomeModel>>
+export function apiGetIncomes(userId: number, productionId: number) : Promise<Array<IncomeModel>>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -399,7 +399,7 @@ export function apiGetIncomes(userId: number) : Promise<Array<IncomeModel>>
 
 
 
-export function apiDeleteIncome(userId: number, income: IncomeModel) : Promise<boolean>
+export function apiDeleteIncome(userId: number, productionId: number, income: IncomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -441,7 +441,7 @@ export function apiDeleteIncome(userId: number, income: IncomeModel) : Promise<b
 
 
 
-export function apiAddOutcome(userId: number, outcome: OutcomeModel) : Promise<boolean>
+export function apiAddOutcome(userId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -473,7 +473,7 @@ export function apiAddOutcome(userId: number, outcome: OutcomeModel) : Promise<b
 
 
 
-export function apiGetOutcomess(userId: number) : Promise<Array<OutcomeModel>>
+export function apiGetOutcomess(userId: number, productionId: number) : Promise<Array<OutcomeModel>>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -501,7 +501,7 @@ export function apiGetOutcomess(userId: number) : Promise<Array<OutcomeModel>>
 
 
 
-export function apiDeleteOutcome(userId: number, outcome: OutcomeModel) : Promise<boolean>
+export function apiDeleteOutcome(userId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {

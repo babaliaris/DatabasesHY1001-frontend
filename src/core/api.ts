@@ -199,6 +199,46 @@ export function apiGetProductions(userId: number) : Promise<Array<ProductionMode
 
 
 
+export function apiGetProduction(userId: number, productionId: number) : Promise<ProductionModel>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "productions";
+        let cookie      = getCookie(cookie_name);
+
+        let productions: Array<ProductionModel>;
+        let production: ProductionModel;
+
+        productions = cookie ? JSON.parse(cookie) : [];
+
+        productions.forEach((value)=>
+        {
+
+            if (value.id === productionId)
+            {
+                production = value;
+                return;
+            }
+
+        });
+
+        return new Promise((res, rej)=>
+        {
+            res(production);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
 export function apiDeleteProduction(userId: number, production: ProductionModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)

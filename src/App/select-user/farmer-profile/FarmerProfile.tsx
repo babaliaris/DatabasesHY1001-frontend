@@ -235,6 +235,12 @@ function FarmerProfile()
             })
         }
 
+        return (()=>
+        {
+            globalCtx.toolbarBtns = [];
+            globalCtx.setContext(globalCtx);
+        });
+
     }, []);
 
     return(

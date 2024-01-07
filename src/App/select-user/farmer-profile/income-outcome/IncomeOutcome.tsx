@@ -46,16 +46,18 @@ function IncomeOutcome()
 
     const onIncomeCreated = useCallback((newIncome: IncomeModel)=>
     {
+        setOpenIncomesModal(false);
         console.log(newIncome);
 
-    }, []);
+    }, [setOpenIncomesModal]);
 
 
     const onOutcomeCreated = useCallback((newOutcome: OutcomeModel)=>
     {
+        setOpenOutcomesModal(false);
         console.log(newOutcome);
 
-    }, []);
+    }, [setOpenOutcomesModal]);
 
 
     useEffect(()=>

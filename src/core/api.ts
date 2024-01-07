@@ -1,4 +1,4 @@
-import { UserModel, ProductionModel, LandModel } from "./models/types.models";
+import { UserModel, ProductionModel, LandModel, IncomeModel, OutcomeModel } from "./models/types.models";
 import { getCookie, setCookie } from "typescript-cookie";
 
 export function apiAddUser(user: UserModel) : Promise<boolean>
@@ -319,6 +319,209 @@ export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean
         });
 
         setCookie(cookie_name, JSON.stringify(lands));
+
+        return new Promise((res, rej)=>
+        {
+            res(true);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
+
+
+export function apiAddIncome(userId: number, income: IncomeModel) : Promise<boolean>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "incomes";
+        let cookie      = getCookie(cookie_name);
+
+        let incomes: Array<IncomeModel>;
+
+        incomes = cookie ? JSON.parse(cookie) : [];
+
+        incomes.push(income);
+
+        setCookie(cookie_name, JSON.stringify(incomes));
+
+        return new Promise((res, rej)=>
+        {
+            res(true);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
+export function apiGetIncomes(userId: number) : Promise<Array<IncomeModel>>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "incomes";
+        let cookie      = getCookie(cookie_name);
+
+        let incomes: Array<IncomeModel>;
+
+        incomes = cookie ? JSON.parse(cookie) : [];
+
+        return new Promise((res, rej)=>
+        {
+            res(incomes);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
+export function apiDeleteIncome(userId: number, income: IncomeModel) : Promise<boolean>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "incomes";
+        let cookie = getCookie(cookie_name);
+
+        let incomes: Array<IncomeModel>;
+
+        incomes = cookie ? JSON.parse(cookie) : [];
+
+        incomes.forEach((value, index)=>
+        {
+            if (value.id === income.id)
+            {
+                incomes.splice(index, 1);
+                return;
+            }
+        });
+
+        setCookie(cookie_name, JSON.stringify(incomes));
+
+        return new Promise((res, rej)=>
+        {
+            res(true);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
+
+
+
+export function apiAddOutcome(userId: number, outcome: OutcomeModel) : Promise<boolean>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "outcomes";
+        let cookie      = getCookie(cookie_name);
+
+        let outcomes: Array<OutcomeModel>;
+
+        outcomes = cookie ? JSON.parse(cookie) : [];
+
+        outcomes.push(outcome);
+
+        setCookie(cookie_name, JSON.stringify(outcomes));
+
+        return new Promise((res, rej)=>
+        {
+            res(true);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
+export function apiGetOutcomess(userId: number) : Promise<Array<OutcomeModel>>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "outcomes";
+        let cookie      = getCookie(cookie_name);
+
+        let outcomes: Array<OutcomeModel>;
+
+        outcomes = cookie ? JSON.parse(cookie) : [];
+
+        return new Promise((res, rej)=>
+        {
+            res(outcomes);
+        });
+    }
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
+export function apiDeleteOutcome(userId: number, outcome: OutcomeModel) : Promise<boolean>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "outcomes";
+        let cookie = getCookie(cookie_name);
+
+        let outcomes: Array<OutcomeModel>;
+
+        outcomes = cookie ? JSON.parse(cookie) : [];
+
+        outcomes.forEach((value, index)=>
+        {
+            if (value.id === outcome.id)
+            {
+                outcomes.splice(index, 1);
+                return;
+            }
+        });
+
+        setCookie(cookie_name, JSON.stringify(outcomes));
 
         return new Promise((res, rej)=>
         {

@@ -97,17 +97,22 @@ function FarmerProfile()
         {
             if (!val) console.error("Failed to create a new production!");
 
+            else
+            {
+                setProductions((prevState)=>
+                {
+                    const new_productions = [...prevState];
+
+                    new_productions.push(newProduction);
+
+                    return new_productions;
+                });
+            }
+
         }).catch((err)=>
         {
             console.error(err);
         });
-
-        setProductions((prevState)=>
-        {
-            prevState.push(newProduction);
-
-            return [...prevState];
-        })
 
         setProductionModalB(false);
 
@@ -121,17 +126,22 @@ function FarmerProfile()
         {
             if (!val) console.error("Failed to create a new land!");
 
+            else
+            {
+                setLands((prevState)=>
+                {
+                    const new_lands = [...prevState];
+
+                    new_lands.push(newLand);
+
+                    return new_lands;
+                });
+            }
+
         }).catch((err)=>
         {
             console.error(err);
         });
-
-        setLands((prevState)=>
-        {
-            prevState.push(newLand);
-
-            return [...prevState];
-        })
 
         setLandModalB(false);
         
@@ -144,15 +154,21 @@ function FarmerProfile()
         {
             if (!val) console.error("Failed to delete a production!");
 
+            else
+            {
+                setProductions((prevState)=>
+                {
+                    const new_productions = [...prevState];
+
+                    new_productions.splice(index, 1);
+
+                    return new_productions;
+                });
+            }
+
         }).catch((err)=>
         {
             console.error(err);
-        });
-
-        setProductions((prevState)=>
-        {
-            prevState.splice(index, 1);
-            return [...prevState];
         });
 
     }, [setProductions, id]);
@@ -172,15 +188,21 @@ function FarmerProfile()
         {
             if (!val) console.error("Failed to delete a land!");
 
+            else
+            {
+                setLands((prevState)=>
+                {
+                    const new_lands = [...prevState];
+
+                    new_lands.splice(index, 1);
+
+                    return new_lands;
+                });
+            }
+
         }).catch((err)=>
         {
             console.error(err);
-        });
-
-        setLands((prevState)=>
-        {
-            prevState.splice(index, 1);
-            return [...prevState];
         });
 
     }, [setLands, id]);

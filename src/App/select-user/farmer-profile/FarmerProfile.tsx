@@ -10,7 +10,7 @@ import { apiAddProduction, apiGetProductions, apiDeleteProduction,
 import SmartForm from "../../../core/components/smart-form/SmartForm";
 import Modal from "../../../core/components/modal/Modal";
 
-import { LandModel, ProductionModel } from "../../../core/models/types.models";
+import { LandModel, ProductionModel, seedTypes } from "../../../core/models/types.models";
 import SmartList from "../../../core/components/smart-list/SmartList";
 
 const productionValidator = yup.object({
@@ -129,6 +129,55 @@ function FarmerProfile()
         
     }, [setLands, setLandModalB]);
 
+
+    const onProductionDelete = useCallback((prod: ProductionModel, index: number)=>
+    {
+        apiDeleteProduction(prod).then((val)=>
+        {
+            if (!val) console.error("Failed to delete a production!");
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+        setProductions((prevState)=>
+        {
+            prevState.splice(index, 1);
+            return [...prevState];
+        });
+
+    }, [setProductions]);
+
+
+    const onProductionSelected = useCallback((prod: ProductionModel)=>
+    {
+        console.log(prod);
+
+    }, []);
+
+
+
+    const onLandDelete = useCallback((land: LandModel, index: number)=>
+    {
+        apiDeleteLand(land).then((val)=>
+        {
+            if (!val) console.error("Failed to delete a land!");
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+        setLands((prevState)=>
+        {
+            prevState.splice(index, 1);
+            return [...prevState];
+        });
+
+    }, [setLands]);
+
+
     const onModalClose = useCallback(()=>
     {
         setProductionModalB(false);
@@ -189,6 +238,8 @@ function FarmerProfile()
                         fieldNames={landNames}
                         submitName="Δημιουργία"
                         placeholders={landPlaceholders}
+                        selectValues={seedTypes}
+                        selectPosition={1}
                         onSubmit={onLandCreated}
                     />
                 </Modal>
@@ -207,6 +258,8 @@ function FarmerProfile()
                     getId={(value: ProductionModel)=>value.id}
                     getLogo={()=>fontawesomeIcons.production}
                     getText={(value: ProductionModel)=>`${value.name} ${value.year}`}
+                    onDelete={onProductionDelete}
+                    onSelect={onProductionSelected}
                     />
 
                 </div>
@@ -220,6 +273,7 @@ function FarmerProfile()
                     getId={(value: LandModel)=>value.id}
                     getLogo={()=>fontawesomeIcons.land}
                     getText={(value: LandModel)=>value.name}
+                    onDelete={onLandDelete}
                     />
                 </div>
 

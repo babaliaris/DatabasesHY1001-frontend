@@ -259,7 +259,7 @@ export function apiGetLands() : Promise<Array<LandModel>>
 
 
 
-export function apiDeleteLand(land: ProductionModel) : Promise<boolean>
+export function apiDeleteLand(land: LandModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {

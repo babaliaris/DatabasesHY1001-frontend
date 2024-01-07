@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { getRandomID } from "../../unilities";
 
 
 
@@ -10,6 +11,8 @@ export type SmartFormProps = {
     validator: yup.AnyObjectSchema,
     placeholders: Array<string>,
     fieldNames: Array<string>,
+    selectValues?: Array<string>
+    selectPosition?: number
     title?: string,
     submitName: string,
     onSubmit: (values: any)=>void,
@@ -78,6 +81,7 @@ function SmartForm(props: SmartFormProps)
 
                 let htmlType = "";
 
+
                 switch(field.field.type)
                 {
                     case "string":
@@ -106,12 +110,30 @@ function SmartForm(props: SmartFormProps)
                             {props.fieldNames[index]}
                         </label>
 
-                        <input
-                        {...register(field.fieldName)}
-                        type={htmlType}
-                        className={`${htmlType === "checkbox" ? "form-check-input" : "form-control"}`}
-                        id={htmlForId}
-                        placeholder={props.placeholders[index]}/>
+                        { props.selectPosition !== index &&
+                            <input
+                            {...register(field.fieldName)}
+                            type={htmlType}
+                            className={`${htmlType === "checkbox" ? "form-check-input" : "form-control"}`}
+                            id={htmlForId}
+                            placeholder={props.placeholders[index]}/>
+                        }
+
+                        {
+                            props.selectPosition === index &&
+                            <select
+                            className="form-select"
+                            {...register(field.fieldName)}
+                            >
+                                {
+                                    props.selectValues?.map((selVal)=>{
+                                        return (
+                                            <option key={getRandomID()}>{selVal}</option>
+                                        );
+                                    })
+                                }
+                            </select>
+                        }
 
                         {errors[field.fieldName] && <label className={`${styles.error_label} text-danger`}>{errmsg}</label>}
                     </div>

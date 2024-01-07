@@ -98,3 +98,29 @@ export type OrderModel = {
     totalPayment: number,
     buyerId: number
 };
+
+
+export const seedTypes: Array<string> = [
+    'OLIVES',
+    'WHEAT',
+    'PEACHES',
+    'TOMATOES',
+    'CUCUMBERS',
+    'NUTS',
+    'CABBAGES',
+    'OTHER'
+];
+
+
+export const valueTypes: Array<string> = [
+    'CURRENCY',
+    'WEIGHT',
+    'VOLUME'
+];
+
+
+export const toolTypes: Array<string> = [
+    'VEHICLE',
+    'TRACTOR_EQUIPMENT',
+    'OTHER'
+];

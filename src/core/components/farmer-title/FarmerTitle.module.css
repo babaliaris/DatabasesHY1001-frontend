@@ -1,0 +1,12 @@
+.container
+{
+    display: block;
+}
+
+
+.title
+{
+    font-size: xx-large;
+    border-radius: 0.2rem;
+    padding: 0.4rem;
+}

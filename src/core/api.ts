@@ -61,6 +61,45 @@ export function apiGetUsers(limit: number) : Promise<Array<UserModel>>
 
 
 
+export function apiGetUser(userID: number) : Promise<UserModel>
+{
+    if (import.meta.env.VITE_MOCK_API)
+    {
+        let cookie_name = "users";
+        let usersCookie = getCookie(cookie_name);
+        
+        let users: Array<UserModel>;
+        let user: UserModel;
+
+        users = usersCookie ? JSON.parse(usersCookie) : [];
+
+        users.forEach((value)=>
+        {
+            if (value.userID === userID)
+            {
+                user = value;
+                return;
+            }
+        });
+
+        return new Promise((res, rej)=>
+        {
+            res(user);
+        });
+    }
+
+
+    else
+    {
+        return new Promise((res, rej)=>
+        {
+            rej("Not implemented yet!");
+        });
+    }
+}
+
+
+
 export function apiDeleteUser(user: UserModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
@@ -100,7 +139,7 @@ export function apiDeleteUser(user: UserModel) : Promise<boolean>
 
 
 
-export function apiAddProduction(production: ProductionModel) : Promise<boolean>
+export function apiAddProduction(userId: number, production: ProductionModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -132,7 +171,7 @@ export function apiAddProduction(production: ProductionModel) : Promise<boolean>
 
 
 
-export function apiGetProductions() : Promise<Array<ProductionModel>>
+export function apiGetProductions(userId: number) : Promise<Array<ProductionModel>>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -160,7 +199,7 @@ export function apiGetProductions() : Promise<Array<ProductionModel>>
 
 
 
-export function apiDeleteProduction(production: ProductionModel) : Promise<boolean>
+export function apiDeleteProduction(userId: number, production: ProductionModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -199,7 +238,7 @@ export function apiDeleteProduction(production: ProductionModel) : Promise<boole
 
 
 
-export function apiAddLand(land: LandModel) : Promise<boolean>
+export function apiAddLand(userId: number, land: LandModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -231,7 +270,7 @@ export function apiAddLand(land: LandModel) : Promise<boolean>
 
 
 
-export function apiGetLands() : Promise<Array<LandModel>>
+export function apiGetLands(userId: number) : Promise<Array<LandModel>>
 {
     if (import.meta.env.VITE_MOCK_API)
     {
@@ -259,7 +298,7 @@ export function apiGetLands() : Promise<Array<LandModel>>
 
 
 
-export function apiDeleteLand(land: LandModel) : Promise<boolean>
+export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API)
     {

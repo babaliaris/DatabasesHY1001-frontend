@@ -6,6 +6,7 @@ import SelectUser from "../App/select-user/SelectUser";
 import Welcome from "../App/welcome/Welcome";
 import FarmerProfile from "../App/select-user/farmer-profile/FarmerProfile";
 import BuyerProfile from "../App/select-user/buyer-profile/BuyerProfile";
+import IncomeOutcome from "../App/select-user/farmer-profile/income-outcome/IncomeOutcome";
 
 export function getRouter()
 {
@@ -20,6 +21,8 @@ export function getRouter()
                 {path: "select-user", element: <SelectUser/>},
 
                 {path: "farmer-profile/:id", element: <FarmerProfile/>},
+
+                {path: "farmer-profile/:id/incomes-outcomes/:prodId", element: <IncomeOutcome/>},
 
                 {path: "buyer-profile/:id", element: <BuyerProfile/>},
 

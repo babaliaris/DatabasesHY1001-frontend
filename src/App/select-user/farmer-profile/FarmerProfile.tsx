@@ -6,12 +6,14 @@ import { GlobalContext } from "../../../core/contex/GlobalContext";
 import { fontawesomeIcons } from "../../../core/fontawesome.icons";
 import { getRandomID } from "../../../core/unilities";
 import { apiAddProduction, apiGetProductions, apiDeleteProduction,
-         apiAddLand, apiGetLands, apiDeleteLand} from "../../../core/api";
+         apiAddLand, apiGetLands, apiDeleteLand, apiGetUser} from "../../../core/api";
 import SmartForm from "../../../core/components/smart-form/SmartForm";
 import Modal from "../../../core/components/modal/Modal";
 
-import { LandModel, ProductionModel, seedTypes } from "../../../core/models/types.models";
+import { LandModel, ProductionModel, UserModel, seedTypes } from "../../../core/models/types.models";
 import SmartList from "../../../core/components/smart-list/SmartList";
+import FarmerTitle from "../../../core/components/farmer-title/FarmerTitle";
+import { useNavigate, useParams } from "react-router-dom";
 
 const productionValidator = yup.object({
     name: yup.string().max(40, "Δεν μπορείτε να δώσετε πάνω από 40 χαρακτήρες.").required("Το πεδίο είναι υποχρεωτικό."),
@@ -61,7 +63,13 @@ const landNames = [
 
 function FarmerProfile()
 {
+    const {id} = useParams();
+
+    const navigate = useNavigate();
+
     const globalCtx = useContext(GlobalContext);
+
+    const [user, setUser] = useState<UserModel>();
 
     const [productionModalB, setProductionModalB] = useState(false);
     const [landModalB, setLandModalB] = useState(false);
@@ -85,7 +93,7 @@ function FarmerProfile()
     {
         newProduction.id = getRandomID();
 
-        apiAddProduction(newProduction).then((val)=>
+        apiAddProduction(Number.parseInt( id as string), newProduction).then((val)=>
         {
             if (!val) console.error("Failed to create a new production!");
 
@@ -103,13 +111,13 @@ function FarmerProfile()
 
         setProductionModalB(false);
 
-    }, [setProductions, setProductionModalB]);
+    }, [setProductions, setProductionModalB, id]);
 
     const onLandCreated =useCallback ((newLand: LandModel)=>
     {
         newLand.id = getRandomID();
 
-        apiAddLand(newLand).then((val)=>
+        apiAddLand(Number.parseInt( id as string), newLand).then((val)=>
         {
             if (!val) console.error("Failed to create a new land!");
 
@@ -127,12 +135,12 @@ function FarmerProfile()
 
         setLandModalB(false);
         
-    }, [setLands, setLandModalB]);
+    }, [setLands, setLandModalB, id]);
 
 
     const onProductionDelete = useCallback((prod: ProductionModel, index: number)=>
     {
-        apiDeleteProduction(prod).then((val)=>
+        apiDeleteProduction(Number.parseInt( id as string), prod).then((val)=>
         {
             if (!val) console.error("Failed to delete a production!");
 
@@ -147,20 +155,20 @@ function FarmerProfile()
             return [...prevState];
         });
 
-    }, [setProductions]);
+    }, [setProductions, id]);
 
 
     const onProductionSelected = useCallback((prod: ProductionModel)=>
     {
-        console.log(prod);
+        navigate(`incomes-outcomes/${prod.id}`);
 
-    }, []);
+    }, [navigate]);
 
 
 
     const onLandDelete = useCallback((land: LandModel, index: number)=>
     {
-        apiDeleteLand(land).then((val)=>
+        apiDeleteLand(Number.parseInt( id as string), land).then((val)=>
         {
             if (!val) console.error("Failed to delete a land!");
 
@@ -175,7 +183,7 @@ function FarmerProfile()
             return [...prevState];
         });
 
-    }, [setLands]);
+    }, [setLands, id]);
 
 
     const onModalClose = useCallback(()=>
@@ -194,7 +202,7 @@ function FarmerProfile()
 
         globalCtx.setContext({...globalCtx});
 
-        apiGetProductions().then((val)=>
+        apiGetProductions(Number.parseInt( id as string)).then((val)=>
         {
             setProductions(val);
 
@@ -204,7 +212,7 @@ function FarmerProfile()
         });
 
 
-        apiGetLands().then((val)=>
+        apiGetLands(Number.parseInt( id as string)).then((val)=>
         {
             setLands(val);
 
@@ -212,6 +220,20 @@ function FarmerProfile()
         {
             console.error(err);
         });
+
+
+        //Get the user.
+        if (id)
+        {
+            apiGetUser(Number.parseInt(id)).then((user: UserModel)=>
+            {
+                setUser(user);
+
+            }).catch((err)=>
+            {
+                console.log(err);
+            })
+        }
 
     }, []);
 
@@ -245,7 +267,12 @@ function FarmerProfile()
                 </Modal>
             }
 
+            <FarmerTitle
+            title={`Χρήστης: ${user?.name} ${user?.surname}`}
+            style={{marginLeft: "1rem", marginTop: "1rem"}}
+            />
 
+            
             <div
             className={styles.lists_container}
             >

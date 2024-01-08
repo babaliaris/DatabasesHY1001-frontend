@@ -150,7 +150,7 @@ function FarmerProfile()
 
     const onProductionDelete = useCallback((prod: ProductionModel, index: number)=>
     {
-        apiDeleteProduction(Number.parseInt( id as string), prod).then((val)=>
+        apiDeleteProduction(prod).then((val)=>
         {
             if (!val) console.error("Failed to delete a production!");
 
@@ -184,7 +184,7 @@ function FarmerProfile()
 
     const onLandDelete = useCallback((land: LandModel, index: number)=>
     {
-        apiDeleteLand(Number.parseInt( id as string), land).then((val)=>
+        apiDeleteLand(land).then((val)=>
         {
             if (!val) console.error("Failed to delete a land!");
 

@@ -16,7 +16,7 @@ export function apiAddUser(user: UserModel) : Promise<boolean>
 
         setCookie(cookie_name, JSON.stringify(users));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -71,7 +71,7 @@ export function apiGetUsers(farmer: boolean) : Promise<Array<UserModel>>
 
         users = usersCookie ? JSON.parse(usersCookie) : [];
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(users);
         });
@@ -138,7 +138,7 @@ export function apiGetUser(userID: number) : Promise<UserModel>
             }
         });
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(user);
         });
@@ -206,7 +206,7 @@ export function apiDeleteUser(user: UserModel) : Promise<boolean>
 
         setCookie(cookie_name, JSON.stringify(users));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -216,6 +216,7 @@ export function apiDeleteUser(user: UserModel) : Promise<boolean>
     {
         return new Promise((res, rej)=>
         {
+            if (false) res(true);
             rej("Not implemented yet!");
         });
     }
@@ -238,7 +239,7 @@ export function apiAddProduction(userId: number, production: ProductionModel) : 
 
         setCookie(cookie_name, JSON.stringify(productions));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -294,7 +295,7 @@ export function apiGetProductions(userId: number) : Promise<Array<ProductionMode
 
         productions = cookie ? JSON.parse(cookie) : [];
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(productions);
         });
@@ -339,7 +340,7 @@ export function apiGetProductions(userId: number) : Promise<Array<ProductionMode
 
 
 
-export function apiGetProduction(userId: number, productionId: number) : Promise<ProductionModel>
+export function apiGetProduction(productionId: number) : Promise<ProductionModel>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -362,7 +363,7 @@ export function apiGetProduction(userId: number, productionId: number) : Promise
 
         });
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(production);
         });
@@ -407,7 +408,7 @@ export function apiGetProduction(userId: number, productionId: number) : Promise
 
 
 
-export function apiDeleteProduction(userId: number, production: ProductionModel) : Promise<boolean>
+export function apiDeleteProduction(production: ProductionModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -429,7 +430,7 @@ export function apiDeleteProduction(userId: number, production: ProductionModel)
 
         setCookie(cookie_name, JSON.stringify(productions));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -439,6 +440,7 @@ export function apiDeleteProduction(userId: number, production: ProductionModel)
     {
         return new Promise((res, rej)=>
         {
+            if (false) res(true);
             rej("Not implemented yet!");
         });
     }
@@ -461,7 +463,7 @@ export function apiAddLand(userId: number, land: LandModel) : Promise<boolean>
 
         setCookie(cookie_name, JSON.stringify(lands));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -517,7 +519,7 @@ export function apiGetLands(userId: number) : Promise<Array<LandModel>>
 
         lands = cookie ? JSON.parse(cookie) : [];
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(lands);
         });
@@ -562,7 +564,7 @@ export function apiGetLands(userId: number) : Promise<Array<LandModel>>
 
 
 
-export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean>
+export function apiDeleteLand(land: LandModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -584,7 +586,7 @@ export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean
 
         setCookie(cookie_name, JSON.stringify(lands));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -594,6 +596,7 @@ export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean
     {
         return new Promise((res, rej)=>
         {
+            if (false) res(true);
             rej("Not implemented yet!");
         });
     }
@@ -618,7 +621,7 @@ export function apiAddIncome(userId: number, landId: number, productionId: numbe
 
         setCookie(cookie_name, JSON.stringify(incomes));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -663,7 +666,7 @@ export function apiAddIncome(userId: number, landId: number, productionId: numbe
 
 
 
-export function apiGetIncomes(userId: number, landId: number, productionId: number) : Promise<Array<IncomeModel>>
+export function apiGetIncomes(landId: number, productionId: number) : Promise<Array<IncomeModel>>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -674,7 +677,7 @@ export function apiGetIncomes(userId: number, landId: number, productionId: numb
 
         incomes = cookie ? JSON.parse(cookie) : [];
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(incomes);
         });
@@ -719,7 +722,7 @@ export function apiGetIncomes(userId: number, landId: number, productionId: numb
 
 
 
-export function apiDeleteIncome(userId: number, productionId: number, income: IncomeModel) : Promise<boolean>
+export function apiDeleteIncome(income: IncomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -741,7 +744,7 @@ export function apiDeleteIncome(userId: number, productionId: number, income: In
 
         setCookie(cookie_name, JSON.stringify(incomes));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -751,6 +754,7 @@ export function apiDeleteIncome(userId: number, productionId: number, income: In
     {
         return new Promise((res, rej)=>
         {
+            if (false) res(true);
             rej("Not implemented yet!");
         });
     }
@@ -776,7 +780,7 @@ export function apiAddOutcome(userId: number, landId: number, productionId: numb
 
         setCookie(cookie_name, JSON.stringify(outcomes));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -821,7 +825,7 @@ export function apiAddOutcome(userId: number, landId: number, productionId: numb
 
 
 
-export function apiGetOutcomess(userId: number, landId: number, productionId: number) : Promise<Array<OutcomeModel>>
+export function apiGetOutcomess(landId: number, productionId: number) : Promise<Array<OutcomeModel>>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -832,7 +836,7 @@ export function apiGetOutcomess(userId: number, landId: number, productionId: nu
 
         outcomes = cookie ? JSON.parse(cookie) : [];
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(outcomes);
         });
@@ -877,7 +881,7 @@ export function apiGetOutcomess(userId: number, landId: number, productionId: nu
 
 
 
-export function apiDeleteOutcome(userId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
+export function apiDeleteOutcome(outcome: OutcomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -899,7 +903,7 @@ export function apiDeleteOutcome(userId: number, productionId: number, outcome: 
 
         setCookie(cookie_name, JSON.stringify(outcomes));
 
-        return new Promise((res, rej)=>
+        return new Promise((res)=>
         {
             res(true);
         });
@@ -908,7 +912,8 @@ export function apiDeleteOutcome(userId: number, productionId: number, outcome: 
     else
     {
         return new Promise((res, rej)=>
-        {
+        {   
+            if (false) res(true);
             rej("Not implemented yet!");
         });
     }

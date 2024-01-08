@@ -120,7 +120,7 @@ function IncomeOutcome()
 
     const onIncomeDelete = useCallback((income: IncomeModel, index: number)=>
     {
-        apiDeleteIncome(Number.parseInt(id as string), Number.parseInt(prodId as string), income).then((value)=>
+        apiDeleteIncome(income).then((value)=>
         {
             if (!value) console.error("Failed to delete the Income.");
 
@@ -146,7 +146,7 @@ function IncomeOutcome()
 
     const onOutcomeDelete = useCallback((outcome: OutcomeModel, index: number)=>
     {
-        apiDeleteOutcome(Number.parseInt(id as string), Number.parseInt(prodId as string), outcome).then((value)=>
+        apiDeleteOutcome(outcome).then((value)=>
         {
             if (!value) console.error("Failed to delete the Outcome.");
 
@@ -196,7 +196,7 @@ function IncomeOutcome()
         })
 
 
-        apiGetProduction( Number.parseInt(id as string), Number.parseInt(prodId as string) ).then((value)=>
+        apiGetProduction( Number.parseInt(prodId as string) ).then((value)=>
         {
             setProduction(value);
 
@@ -228,7 +228,7 @@ function IncomeOutcome()
 
     useEffect(()=>
     {
-        apiGetIncomes(Number.parseInt(id as string), landId, Number.parseInt(prodId as string)).then((value)=>
+        apiGetIncomes(landId, Number.parseInt(prodId as string)).then((value)=>
         {
             setIncomes(value);
         }).catch((err)=>
@@ -237,7 +237,7 @@ function IncomeOutcome()
         });
 
 
-        apiGetOutcomess(Number.parseInt(id as string), landId, Number.parseInt(prodId as string)).then((value)=>
+        apiGetOutcomess(landId, Number.parseInt(prodId as string)).then((value)=>
         {
             setOutcomes(value);
 

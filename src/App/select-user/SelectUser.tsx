@@ -58,10 +58,10 @@ function SelectUser()
     }, []);
 
 
-    const onUserDelete = useCallback((user: UserModel, index: number)=>
+    const onUserDelete = useCallback((user: UserModel)=>
     {
         //Delete from api.
-        apiDeleteUser(user).then((value)=>
+        apiDeleteUser(user).then(()=>
         {
 
         }).catch((err)=>

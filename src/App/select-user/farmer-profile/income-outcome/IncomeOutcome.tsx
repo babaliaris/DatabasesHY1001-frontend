@@ -179,12 +179,14 @@ function IncomeOutcome()
 
     useEffect(()=>
     {
-        globalCtx.toolbarBtns = [
+        const ctx = {...globalCtx};
+
+        ctx.toolbarBtns = [
             {text: "Νέο Έσοδο", icon: fontawesomeIcons.income, onClick: ()=>setOpenIncomesModal(true)},
             {text: "Νέο Έξοδο", icon: fontawesomeIcons.outcome, onClick: ()=>setOpenOutcomesModal(true)}
         ];
 
-        globalCtx.setContext({...globalCtx});
+        globalCtx.setContext(ctx);
 
         apiGetUser(Number.parseInt(id as string)).then((value)=>
         {
@@ -218,8 +220,9 @@ function IncomeOutcome()
 
         return (()=>
         {
-            globalCtx.toolbarBtns = [];
-            globalCtx.setContext({...globalCtx});
+            const ctx = {...globalCtx};
+            ctx.toolbarBtns = [];
+            globalCtx.setContext(ctx);
         }); 
 
     }, []);

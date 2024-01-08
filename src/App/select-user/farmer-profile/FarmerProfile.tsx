@@ -217,12 +217,14 @@ function FarmerProfile()
 
     useEffect(()=>
     {
-        globalCtx.toolbarBtns = [
+        const ctx = {...globalCtx};
+
+        ctx.toolbarBtns = [
             {text: "Νέα Παραγωγή", icon: fontawesomeIcons.production, onClick:onNewProduction},
             {text: "Νέο Οικόπεδο", icon: fontawesomeIcons.land, onClick:onNewLand},
         ];
 
-        globalCtx.setContext({...globalCtx});
+        globalCtx.setContext(ctx);
 
         apiGetProductions(Number.parseInt( id as string)).then((val)=>
         {
@@ -259,8 +261,11 @@ function FarmerProfile()
 
         return (()=>
         {
-            globalCtx.toolbarBtns = [];
-            globalCtx.setContext(globalCtx);
+            const ctx = {...globalCtx};
+
+            ctx.toolbarBtns = [];
+
+            globalCtx.setContext(ctx);
         });
 
     }, []);

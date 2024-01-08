@@ -18,26 +18,20 @@ function SelectUser()
 
     useEffect(()=>
     {
-        apiGetUsers(100).then((users: Array<UserModel>)=>
+        //Get farmers
+        apiGetUsers(true).then((f: Array<UserModel>)=>
         {
-            let f: Array<UserModel> = [];
-            let b: Array<UserModel> = [];
-
-            users.forEach((val: UserModel)=>
-            {
-
-                if (val.isBuyer)
-                {
-                    b.push(val);
-                }
-
-                else
-                {
-                    f.push(val);
-                }
-            });
-
             setFarmers(f);
+        })
+        .catch((err)=>
+        {
+            console.log(err);
+        });
+
+
+        //Get buyers.
+        apiGetUsers(false).then((b: Array<UserModel>)=>
+        {
             setBuyers(b);
         })
         .catch((err)=>
@@ -133,7 +127,7 @@ function SelectUser()
                 <SmartList
                 data={buyers}
                 getText={(value: UserModel)=>`${value.name} ${value.surname}`}
-                getLogo={()=> fontawesomeIcons.farmer}
+                getLogo={()=> fontawesomeIcons.buyer}
                 getId={(value: UserModel)=>value.userID}
                 onSelect={onUserSelected}
                 onEdit={onUserEdit}

@@ -3,7 +3,7 @@ import { getCookie, setCookie } from "typescript-cookie";
 
 export function apiAddUser(user: UserModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "users";
         let usersCookie = getCookie(cookie_name);
@@ -24,17 +24,45 @@ export function apiAddUser(user: UserModel) : Promise<boolean>
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/add_user?isBuyer=${user.isBuyer}`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( user )
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
 
 
-export function apiGetUsers(limit: number) : Promise<Array<UserModel>>
+export function apiGetUsers(farmer: boolean) : Promise<Array<UserModel>>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "users";
         let usersCookie = getCookie(cookie_name);
@@ -52,9 +80,37 @@ export function apiGetUsers(limit: number) : Promise<Array<UserModel>>
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_users?farmer=${farmer}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -63,7 +119,7 @@ export function apiGetUsers(limit: number) : Promise<Array<UserModel>>
 
 export function apiGetUser(userID: number) : Promise<UserModel>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "users";
         let usersCookie = getCookie(cookie_name);
@@ -91,9 +147,37 @@ export function apiGetUser(userID: number) : Promise<UserModel>
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_user?farmerId=${userID}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -102,7 +186,7 @@ export function apiGetUser(userID: number) : Promise<UserModel>
 
 export function apiDeleteUser(user: UserModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "users";
         let usersCookie = getCookie(cookie_name);
@@ -141,7 +225,7 @@ export function apiDeleteUser(user: UserModel) : Promise<boolean>
 
 export function apiAddProduction(userId: number, production: ProductionModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "productions";
         let cookie      = getCookie(cookie_name);
@@ -162,9 +246,37 @@ export function apiAddProduction(userId: number, production: ProductionModel) : 
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/add_production?farmerId=${userId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( production )
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -173,7 +285,7 @@ export function apiAddProduction(userId: number, production: ProductionModel) : 
 
 export function apiGetProductions(userId: number) : Promise<Array<ProductionModel>>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "productions";
         let cookie      = getCookie(cookie_name);
@@ -190,9 +302,37 @@ export function apiGetProductions(userId: number) : Promise<Array<ProductionMode
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_productions?farmerId=${userId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -201,7 +341,7 @@ export function apiGetProductions(userId: number) : Promise<Array<ProductionMode
 
 export function apiGetProduction(userId: number, productionId: number) : Promise<ProductionModel>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "productions";
         let cookie      = getCookie(cookie_name);
@@ -230,9 +370,37 @@ export function apiGetProduction(userId: number, productionId: number) : Promise
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_production?productionId=${productionId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -241,7 +409,7 @@ export function apiGetProduction(userId: number, productionId: number) : Promise
 
 export function apiDeleteProduction(userId: number, production: ProductionModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "productions";
         let cookie = getCookie(cookie_name);
@@ -280,7 +448,7 @@ export function apiDeleteProduction(userId: number, production: ProductionModel)
 
 export function apiAddLand(userId: number, land: LandModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "lands";
         let cookie      = getCookie(cookie_name);
@@ -301,9 +469,37 @@ export function apiAddLand(userId: number, land: LandModel) : Promise<boolean>
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/add_land?farmerId=${userId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( land )
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -312,7 +508,7 @@ export function apiAddLand(userId: number, land: LandModel) : Promise<boolean>
 
 export function apiGetLands(userId: number) : Promise<Array<LandModel>>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "lands";
         let cookie      = getCookie(cookie_name);
@@ -329,9 +525,37 @@ export function apiGetLands(userId: number) : Promise<Array<LandModel>>
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_lands?farmerId=${userId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -340,7 +564,7 @@ export function apiGetLands(userId: number) : Promise<Array<LandModel>>
 
 export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "lands";
         let cookie = getCookie(cookie_name);
@@ -381,7 +605,7 @@ export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean
 
 export function apiAddIncome(userId: number, productionId: number, income: IncomeModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "incomes";
         let cookie      = getCookie(cookie_name);
@@ -413,7 +637,7 @@ export function apiAddIncome(userId: number, productionId: number, income: Incom
 
 export function apiGetIncomes(userId: number, productionId: number) : Promise<Array<IncomeModel>>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "incomes";
         let cookie      = getCookie(cookie_name);
@@ -430,9 +654,37 @@ export function apiGetIncomes(userId: number, productionId: number) : Promise<Ar
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_incomes?productionId=${productionId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -441,7 +693,7 @@ export function apiGetIncomes(userId: number, productionId: number) : Promise<Ar
 
 export function apiDeleteIncome(userId: number, productionId: number, income: IncomeModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "incomes";
         let cookie = getCookie(cookie_name);
@@ -483,7 +735,7 @@ export function apiDeleteIncome(userId: number, productionId: number, income: In
 
 export function apiAddOutcome(userId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "outcomes";
         let cookie      = getCookie(cookie_name);
@@ -515,7 +767,7 @@ export function apiAddOutcome(userId: number, productionId: number, outcome: Out
 
 export function apiGetOutcomess(userId: number, productionId: number) : Promise<Array<OutcomeModel>>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "outcomes";
         let cookie      = getCookie(cookie_name);
@@ -532,9 +784,37 @@ export function apiGetOutcomess(userId: number, productionId: number) : Promise<
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_outcomes?productionId=${productionId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
@@ -543,7 +823,7 @@ export function apiGetOutcomess(userId: number, productionId: number) : Promise<
 
 export function apiDeleteOutcome(userId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
 {
-    if (import.meta.env.VITE_MOCK_API)
+    if (import.meta.env.VITE_MOCK_API === "true")
     {
         let cookie_name = "outcomes";
         let cookie = getCookie(cookie_name);

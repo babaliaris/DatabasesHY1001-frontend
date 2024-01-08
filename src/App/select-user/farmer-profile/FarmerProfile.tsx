@@ -39,7 +39,7 @@ const landValidator = yup.object({
     name: yup.string().max(40, "Δεν μπορείτε να δώσετε πάνω από 40 χαρακτήρες.").required("Το πεδίο είναι υποχρεωτικό."),
     seedType: yup.string(),
     latitude: yup.number().typeError("Πρέπει να δώσετε έναν πραγματικό αριθμό."),
-    logitude: yup.number().typeError("Πρέπει να δώσετε έναν πραγματικό αριθμό.")
+    longitude: yup.number().typeError("Πρέπει να δώσετε έναν πραγματικό αριθμό.")
 });
 
 

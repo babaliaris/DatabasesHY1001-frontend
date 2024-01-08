@@ -68,11 +68,11 @@ function SmartList(props: SmartListProps)
                             <div
                             className={`${styles.item_text}`}
                             >
-                                <label
+                                <div
                                 className={`${styles.text}`}
                                 >
                                     {props.getText(value)}
-                                </label>
+                                </div>
                             </div>
 
                             {

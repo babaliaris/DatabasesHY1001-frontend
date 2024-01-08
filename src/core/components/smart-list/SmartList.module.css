@@ -41,6 +41,7 @@
 .item_text
 {
     flex: auto;
+    width: 50%;
     text-align: center;
 }
 
@@ -49,6 +50,8 @@
 .text
 {
     cursor: pointer;
+    word-wrap: break-word;
+    overflow: auto;
 }
 
 

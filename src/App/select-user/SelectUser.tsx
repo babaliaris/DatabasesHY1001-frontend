@@ -61,28 +61,13 @@ function SelectUser()
     const onUserDelete = useCallback((user: UserModel, index: number)=>
     {
         //Delete from api.
-        apiDeleteUser(user);
-
-        //Delete from the list.
-        if (user.isBuyer)
+        apiDeleteUser(user).then((value)=>
         {
-            setBuyers((oldValue: Array<UserModel>)=>
-            {
-                oldValue.splice(index, 1);
-                return [...oldValue];
-            });
-        }
 
-        //Delete from the list.
-        else
+        }).catch((err)=>
         {
-            setFarmers((oldValue: Array<UserModel>)=>
-            {
-                oldValue.splice(index, 1);
-                return [...oldValue];
-
-            });
-        }
+            console.error(err);
+        });
 
     }, []);
 
@@ -114,7 +99,7 @@ function SelectUser()
 
                 <SmartList
                 data={farmers}
-                getText={(value: UserModel)=>`${value.name} ${value.surname}`}
+                getText={(value: UserModel)=>JSON.stringify(value)}
                 getLogo={()=> fontawesomeIcons.farmer}
                 getId={(value: UserModel)=>value.userID}
                 onSelect={onUserSelected}
@@ -126,7 +111,7 @@ function SelectUser()
 
                 <SmartList
                 data={buyers}
-                getText={(value: UserModel)=>`${value.name} ${value.surname}`}
+                getText={(value: UserModel)=>JSON.stringify(value)}
                 getLogo={()=> fontawesomeIcons.buyer}
                 getId={(value: UserModel)=>value.userID}
                 onSelect={onUserSelected}

@@ -603,7 +603,7 @@ export function apiDeleteLand(userId: number, land: LandModel) : Promise<boolean
 
 
 
-export function apiAddIncome(userId: number, productionId: number, income: IncomeModel) : Promise<boolean>
+export function apiAddIncome(userId: number, landId: number, productionId: number, income: IncomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -626,16 +626,44 @@ export function apiAddIncome(userId: number, productionId: number, income: Incom
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/add_income?farmerId=${userId}&landId=${landId}&productionId=${productionId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( income )
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
 
 
 
-export function apiGetIncomes(userId: number, productionId: number) : Promise<Array<IncomeModel>>
+export function apiGetIncomes(userId: number, landId: number, productionId: number) : Promise<Array<IncomeModel>>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -658,7 +686,7 @@ export function apiGetIncomes(userId: number, productionId: number) : Promise<Ar
         {
             try
             {
-                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_incomes?productionId=${productionId}`,
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_incomes?landId=${landId}&productionId=${productionId}`,
                 {
                     method: "GET",
                     headers: {
@@ -733,7 +761,7 @@ export function apiDeleteIncome(userId: number, productionId: number, income: In
 
 
 
-export function apiAddOutcome(userId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
+export function apiAddOutcome(userId: number, landId: number, productionId: number, outcome: OutcomeModel) : Promise<boolean>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -756,16 +784,44 @@ export function apiAddOutcome(userId: number, productionId: number, outcome: Out
 
     else
     {
-        return new Promise((res, rej)=>
+        return new Promise(async (res, rej)=>
         {
-            rej("Not implemented yet!");
+            try
+            {
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/add_outcome?farmerId=${userId}&landId=${landId}&productionId=${productionId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( outcome )
+                });
+                
+                const data = await response.json();
+
+                if (response.ok)
+                {
+                    res(data);
+                }
+                
+                else
+                {
+                    rej(data);
+                }
+            }
+
+            catch(err)
+            {
+                rej(err);
+            }
         });
     }
 }
 
 
 
-export function apiGetOutcomess(userId: number, productionId: number) : Promise<Array<OutcomeModel>>
+export function apiGetOutcomess(userId: number, landId: number, productionId: number) : Promise<Array<OutcomeModel>>
 {
     if (import.meta.env.VITE_MOCK_API === "true")
     {
@@ -788,7 +844,7 @@ export function apiGetOutcomess(userId: number, productionId: number) : Promise<
         {
             try
             {
-                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_outcomes?productionId=${productionId}`,
+                const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/get_all_outcomes?landId=${landId}&productionId=${productionId}`,
                 {
                     method: "GET",
                     headers: {

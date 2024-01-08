@@ -312,7 +312,7 @@ function FarmerProfile()
                     data={productions}
                     getId={(value: ProductionModel)=>value.id}
                     getLogo={()=>fontawesomeIcons.production}
-                    getText={(value: ProductionModel)=>`${value.name} ${value.year}`}
+                    getText={(value: ProductionModel)=>JSON.stringify(value)}
                     onDelete={onProductionDelete}
                     onSelect={onProductionSelected}
                     />
@@ -327,7 +327,7 @@ function FarmerProfile()
                     data={lands}
                     getId={(value: LandModel)=>value.id}
                     getLogo={()=>fontawesomeIcons.land}
-                    getText={(value: LandModel)=>value.name}
+                    getText={(value: LandModel)=>JSON.stringify(value)}
                     onDelete={onLandDelete}
                     />
                 </div>

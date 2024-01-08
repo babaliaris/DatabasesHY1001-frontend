@@ -6,9 +6,9 @@ import styles from "./IncomeOutcome.module.css";
 import { GlobalContext } from "../../../../core/contex/GlobalContext";
 import { fontawesomeIcons } from "../../../../core/fontawesome.icons";
 import Modal from "../../../../core/components/modal/Modal";
-import { IncomeModel, OutcomeModel, ProductionModel, UserModel, valueTypes } from "../../../../core/models/types.models";
+import { IncomeModel, LandModel, OutcomeModel, ProductionModel, UserModel, valueTypes } from "../../../../core/models/types.models";
 import { useParams } from "react-router-dom";
-import { apiAddIncome, apiAddOutcome, apiDeleteIncome, apiDeleteOutcome, apiGetIncomes, apiGetOutcomess, apiGetProduction, apiGetUser } from "../../../../core/api";
+import { apiAddIncome, apiAddOutcome, apiDeleteIncome, apiDeleteOutcome, apiGetIncomes, apiGetLands, apiGetOutcomess, apiGetProduction, apiGetUser } from "../../../../core/api";
 import { getRandomID } from "../../../../core/unilities";
 import FarmerTitle from "../../../../core/components/farmer-title/FarmerTitle";
 
@@ -48,12 +48,14 @@ function IncomeOutcome()
 
     const [user, setUser] = useState<UserModel>();
     const [production, setProduction] = useState<ProductionModel>();
+    const [landId, setLandId] = useState<number>(-1);
 
     const [openIncomesModal, setOpenIncomesModal] = useState<boolean>(false);
     const [openOutcomesModal, setOpenOutcomesModal] = useState<boolean>(false);
 
     const [incomes, setIncomes] = useState<Array<IncomeModel>>([]);
     const [outcomes, setOutcomes] = useState<Array<OutcomeModel>>([]);
+    const [lands, setLands] = useState<Array<LandModel>>([]);
 
 
     const onIncomeCreated = useCallback((newIncome: IncomeModel)=>
@@ -62,7 +64,7 @@ function IncomeOutcome()
 
         newIncome.id = getRandomID();
         
-        apiAddIncome(Number.parseInt(id as string), Number.parseInt(prodId as string), newIncome).then((value)=>
+        apiAddIncome(Number.parseInt(id as string), landId, Number.parseInt(prodId as string), newIncome).then((value)=>
         {
             if (!value) console.error("Failed to add an Income.");
 
@@ -83,7 +85,7 @@ function IncomeOutcome()
             console.error(err);
         });
 
-    }, [setOpenIncomesModal, setIncomes, id, prodId]);
+    }, [setOpenIncomesModal, setIncomes, id, landId, prodId]);
 
 
     const onOutcomeCreated = useCallback((newOutcome: OutcomeModel)=>
@@ -92,7 +94,7 @@ function IncomeOutcome()
 
         newOutcome.id = getRandomID();
 
-        apiAddOutcome(Number.parseInt(id as string), Number.parseInt(prodId as string), newOutcome).then((value)=>
+        apiAddOutcome(Number.parseInt(id as string), landId, Number.parseInt(prodId as string), newOutcome).then((value)=>
         {
             if (!value) console.error("Failed to add an Outcome.");
 
@@ -113,7 +115,7 @@ function IncomeOutcome()
             console.error(err);
         });
 
-    }, [setOpenOutcomesModal, setOutcomes, id, prodId]);
+    }, [setOpenOutcomesModal, setOutcomes, id, landId, prodId]);
 
 
     const onIncomeDelete = useCallback((income: IncomeModel, index: number)=>
@@ -169,6 +171,12 @@ function IncomeOutcome()
     }, [setOutcomes, id, prodId]);
 
 
+    const onFieldSelect = useCallback((event: any)=>
+    {
+        setLandId(event.target.value as number);
+    }, [setLandId]);
+
+
     useEffect(()=>
     {
         globalCtx.toolbarBtns = [
@@ -198,18 +206,10 @@ function IncomeOutcome()
         });
 
 
-        apiGetIncomes(Number.parseInt(id as string), Number.parseInt(prodId as string)).then((value)=>
+        apiGetLands(Number.parseInt(id as string)).then((value)=>
         {
-            setIncomes(value);
-        }).catch((err)=>
-        {
-            console.error(err);
-        });
-
-
-        apiGetOutcomess(Number.parseInt(id as string), Number.parseInt(prodId as string)).then((value)=>
-        {
-            setOutcomes(value);
+            setLands(value);
+            setLandId(value[0].id);
 
         }).catch((err)=>
         {
@@ -224,6 +224,30 @@ function IncomeOutcome()
 
     }, []);
 
+
+
+    useEffect(()=>
+    {
+        apiGetIncomes(Number.parseInt(id as string), landId, Number.parseInt(prodId as string)).then((value)=>
+        {
+            setIncomes(value);
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+
+        apiGetOutcomess(Number.parseInt(id as string), landId, Number.parseInt(prodId as string)).then((value)=>
+        {
+            setOutcomes(value);
+
+        }).catch((err)=>
+        {
+            console.error(err);
+        });
+
+    }, [landId]);
+
     return (
         <div
         className={`${styles.container}`}
@@ -232,6 +256,31 @@ function IncomeOutcome()
             title={`Χρήστης: ${user?.name} ${user?.surname} , Παραγωγή: ${production?.name} ${production?.year}`}
             style={{marginTop: "0.5rem", marginLeft: "0.5rem"}}
             />
+
+            <div
+            className={styles.field_selector}
+            >
+
+                <label
+                className={styles.field_selector_label}
+                >
+                    Επιλογή Οικοπέδου:
+                </label>
+
+                <select
+                className="form-select"
+                onChange={(event)=>onFieldSelect(event)}
+                >
+                    {
+                        lands.map((land: LandModel)=>{
+                            return (
+                                <option key={land.id} value={land.id}>{`${land.name}`}</option>
+                            );
+                        })
+                    }
+                </select>
+
+            </div>
 
             {openIncomesModal &&
                 <Modal title="Νέο Έσοδο" closeBtn="Κλείσιμο" onClose={()=>{setOpenIncomesModal(false);setOpenOutcomesModal(false)}}>
@@ -264,7 +313,7 @@ function IncomeOutcome()
 
             <SmartList
             data={incomes}
-            getText={(value: IncomeModel)=>value.name}
+            getText={(value: IncomeModel)=>JSON.stringify(value)}
             getLogo={()=>fontawesomeIcons.income}
             getId={(value: IncomeModel)=>value.id}
             onDelete={onIncomeDelete}
@@ -272,7 +321,7 @@ function IncomeOutcome()
 
             <SmartList
             data={outcomes}
-            getText={(value: OutcomeModel)=>value.name}
+            getText={(value: OutcomeModel)=>JSON.stringify(value)}
             getLogo={()=>fontawesomeIcons.outcome}
             getId={(value: OutcomeModel)=>value.id}
             onDelete={onOutcomeDelete}

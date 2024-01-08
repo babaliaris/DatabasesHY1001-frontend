@@ -6,7 +6,7 @@ function BuyerProfile()
         <div
         className={`${styles.container}`}
         >
-            Buyer Profile Works!
+            Δυστηχώς Δεν Πρόλαβα Να Υλοποιήσω Τίποτα Για Τους Αγοραστές...
         </div>
     );
 }

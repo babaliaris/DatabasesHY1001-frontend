@@ -54,6 +54,11 @@ function CreateUser() {
         {
             if (!value) console.log("Backend failed to create the user");
 
+            else
+            {
+                window.alert("Ο χρήστης δημιουργήθηκε με επιτυχία!");
+            }
+
         }).catch((err)=>
         {
             console.log(err);

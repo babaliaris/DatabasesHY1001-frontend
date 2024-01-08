@@ -55,7 +55,7 @@ function Welcome()
                 <li>[Αγρότες]: Διαγραφή/Επεξεργασία στα πάντα</li>
             </ul>
 
-            <label style={{color:"red", fontWeight: "bold", fontSize: "x-large"}}>Τι δεν έχω υλοποιήση στην εφαρμογή:</label>
+            <label style={{color:"red", fontWeight: "bold", fontSize: "x-large"}}>Γνωστά BUGS:</label>
             <p>
                 Υπάρχει ένα bug όπου όταν επιλέγετε μία παραγωγή και πάτε μπρος πίσω στις σελίδες, το toolbar (γρι μενού πάνω)
                 γεμίζει με κουμπιά. Όταν συμβαίνει αυτό κάνετε refresh την σελίδα.
